@@ -4,8 +4,11 @@
 		<link rel="stylesheet" type="text/css" href="buttonImages.css"/>
 	</HEAD>
 	<BODY>
-		<button class="img-tree" onClick="treeClick(1)">I'm a Tree! Don't Click Me!</button>
-		<div id="woodDisp"></div>
+		<button class="img-tree size-mid" onClick="treeClick(1)">I'm a Tree! Don't Click Me!</button>
+		Wood:<span id="woodDisp">0</span><br />
+		<button onClick="buyWoodCutterClick()">Buy Woodcutter</button>
+		WoodCutters: <span id="woodCutters">0</span><br/>
+		Cost: <span id="woodCutterCost">10</span>
 		<script type="text/javascript" src="main.js"></script>
 	</BODY>
 </HTML>
