@@ -20,7 +20,29 @@ function save(){
 		wood: wood,
 		woodCutters: woodCutters
 	}
+	localStorage.setItem("save", JSON.stringify(save));
+	console.log("I Saved");
+}
+function load(){
+	var savegame = JSON.parse(localStorage.getItem("save"));
+	if(typeof savegame.wood !== "undefined") {
+		wood = savegame.wood;
+		document.getElementById("woodDisp").innerHTML = wood;
+	};
+	if(typeof savegame.woodCutters !== "undefined") { 
+		woodCutters = savegame.woodCutters;
+		var nextCost = Math.floor(10 * Math.pow(1.1,woodCutters));
+		document.getElementById("woodCutters").innerHTML = woodCutters;
+		document.getElementById("woodCutterCost").innerHTML = nextCost;
+	}
+	
+}
+window.onload = function(){
+	load();
 }
 window.setInterval(function(){
 treeClick(woodCutters);
 }, 1000);
+window.setInterval(function(){
+	save();
+},30000);
