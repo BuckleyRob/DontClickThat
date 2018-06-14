@@ -1,9 +1,11 @@
-button.size-mid{
-	height:100px;
-	width:140px;
-}
-button.img-tree {
-	background-image:url("Images/Wood-Sprite.png");
+button {
 	background-size:contain;
 	background-repeat:no-repeat;
 }
+button.size-mid {
+	height:100px;
+	width:140px;
+}
+button.img-tree { background-image:url("Images/Wood-Sprite.png");}
+button.img-stone { background-image:url("Images/Stone-Sprite.png");}
+button.img-vine { background-image:url("Images/Vine-Sprite.png");}
