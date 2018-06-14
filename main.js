@@ -5,7 +5,7 @@ function treeClick(number){
 	document.getElementById("woodDisp").innerHTML = wood;
 }
 function buyWoodCutterClick(){
-var woodCutterCost = Math.floor(10 * Math.pow(1.1, woodCutters));
+	var woodCutterCost = Math.floor(10 * Math.pow(1.1, woodCutters));
 	if(wood >= woodCutterCost){
 		woodCutters = woodCutters + 1;
 		wood = wood - woodCutterCost;
@@ -14,6 +14,12 @@ var woodCutterCost = Math.floor(10 * Math.pow(1.1, woodCutters));
 	}
 	var nextCost = Math.floor(10 * Math.pow(1.1,woodCutters));
 	document.getElementById("woodCutterCost").innerHTML = nextCost;
+}
+function save(){
+	var save = {
+		wood: wood,
+		woodCutters: woodCutters
+	}
 }
 window.setInterval(function(){
 treeClick(woodCutters);
