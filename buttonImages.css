@@ -1,0 +1,9 @@
+button.size-mid{
+	height:100px;
+	width:140px;
+}
+button.img-tree {
+	background-image:url("Images/Wood-Sprite.png");
+	background-size:contain;
+	background-repeat:no-repeat;
+}
