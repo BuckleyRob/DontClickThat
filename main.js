@@ -1,50 +1,4 @@
-class Gatherable {
-	constructor(name, quantity, cutters) {
-		this.name = name; // wood
-		this.quantity = quantity; // 12
-		this.cutters = cutters; // 2
-	};
-	initialize(){
-		this.quantity = 0;
-		this.cutters = 0;
-	}
-	addQuantity(number){
-		this.quantity = this.quantity + number;
-	}
-	setQuantity(number){
-		this.quantity = number;
-	}
-	removeQuantity(number){
-		this.quantity = this.quantity - number;
-	}
-	addCutters(number){
-		this.cutters = this.cutters + number;
-	}
-	setCutters(number){
-		this.cutters = number;
-	}
-	removeCutters(number){
-		this.cutters = this.cutters - number;
-	}
-	logit(){
-		console.log(this.name+" has "+this.quantity+" and "+this.cutters+" cutters");
-	}
-	updateUI() {
-		document.getElementById(this.name+"Cutters").innerHTML = this.cutters;
-		document.getElementById(this.name+"Disp").innerHTML = this.quantity;
-		
-		var nextCost = Math.floor(10 * Math.pow(1.1,this.cutters));
-		document.getElementById(this.name+"CutterCost").innerHTML = nextCost;
-		this.logit();
-	}	
-}
-var wood = 0;
-var woodCutters = 0;
-
-var gWood = new Gatherable("wood",0,0);
-var gStone = new Gatherable("stone",0,0);
-var gVine = new Gatherable("vine",0,0);
-
+/*
 function gatherableClick(name, number){
 	if(name == 'wood'){
 		gWood.addQuantity(number);
@@ -92,19 +46,13 @@ function initialize(){
 function resetSave(){
 	localStorage.removeItem("save");
 	initialize();
-}
+}*/
 function save(){
-	var save = {
-		wood: gWood.quantity,
-		woodCutters: gWood.cutters,
-		stone: gStone.quantity,
-		stoneCutters: gStone.cutters,
-		vine: gVine.quantity,
-		vineCutters: gVine.cutters
-	}
-	localStorage.setItem("save", JSON.stringify(save));
+document.getElementById("Gatherables").appendChild(new Gatherable.Gatherable());
+
+	
 	console.log("I Saved");
-}
+}/*
 function load(){
 	initialize();
 	var savegame = JSON.parse(localStorage.getItem("save"));
@@ -143,3 +91,4 @@ gatherableClick('vine',gVine.cutters);
 window.setInterval(function(){
 	save();
 },30000);
+*/
