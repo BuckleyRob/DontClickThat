@@ -1,5 +1,21 @@
 body{
 }
-#MenuBar ul {
+.no-bullet {
 	list-style-type: none;
+}
+.floatR {
+	float:right;
+}
+.floatL {
+	float:left;
+}
+.clear {
+	clear:both;
+}
+ .gatherable {
+	 
+}
+#Resources ul li {
+	float:left;
+	padding-right:20px;
 }
