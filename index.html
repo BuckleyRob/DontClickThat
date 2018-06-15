@@ -1,6 +1,5 @@
 <HTML>
 	<HEAD>
-		<link rel="stylesheet" type="text/css" href="interface.css"/>
 		<link rel="stylesheet" type="text/css" href="buttonImages.css"/>
 		<link rel="stylesheet" type="text/css" href="userInterface.css"/>
 	</HEAD>
@@ -8,27 +7,28 @@
 		<div id="MenuBar">
 			<ul class="no-bullet">
 				<li><button onClick="save()">Save the Game</button></li>
+				<li><button onClick="resetSave()">Reset the Game</button></li>
 			</ul>
 		</div>
 		<div id="Gatherables">
 			<div>
-				<button class="img-tree size-mid" onClick="treeClick(1)">I'm a Tree! Don't Click Me!</button>
+				<button class="img-tree size-mid" onClick="gatherableClick('wood',1)">I'm a Tree! Don't Click Me!</button>
 				Wood:<span id="woodDisp">0</span><br />
-				<button onClick="buyWoodCutterClick()">Buy Woodcutter</button>
+				<button onClick="buyGatherableCutterClick('wood')">Buy Woodcutter</button>
 				WoodCutters: <span id="woodCutters">0</span><br/>
 				Cost: <span id="woodCutterCost">10</span>
 			</div>
 			<div>
-				<button class="img-stone size-mid" onClick="stoneClick(1)">I'm a Rock! Don't Click Me!</button>
+				<button class="img-stone size-mid" onClick="gatherableClick('stone',1)">I'm a Rock! Don't Click Me!</button>
 				Stone:<span id="stoneDisp">0</span><br />
-				<button onClick="buyStoneCutterClick()">Buy Stonecutter</button>
+				<button onClick="buyGatherableCutterClick('stone')">Buy Stonecutter</button>
 				StoneCutters: <span id="stoneCutters">0</span><br/>
 				Cost: <span id="stoneCutterCost">10</span>
 			</div>
 			<div>
-				<button class="img-vine size-mid" onClick="vineClick(1)">I'm a Vine! Don't Click Me!</button>
+				<button class="img-vine size-mid" onClick="gatherableClick('vine',1)">I'm a Vine! Don't Click Me!</button>
 				Vine:<span id="vineDisp">0</span><br />
-				<button onClick="buyVineCutterClick()">Buy Vinecutter</button>
+				<button onClick="buyGatherableCutterClick('vine')">Buy Vinecutter</button>
 				VineCutters: <span id="vineCutters">0</span><br/>
 				Cost: <span id="vineCutterCost">10</span>
 			</div>
