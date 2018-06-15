@@ -109,28 +109,14 @@ function save(){
 function load(){
 	initialize();
 	var savegame = JSON.parse(localStorage.getItem("save"));
-	if(typeof savegame.wood !== "undefined") {
-		gatherableDict['wood'].setQuantity(savegame.wood);
-	};
-	if(typeof savegame.woodCutters !== "undefined") { 
-		gatherableDict['wood'].setCutters(savegame.woodCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gatherableDict['wood'].cutters));
+	for(key in gatherableDict){
+		if(typeof savegame[key] !== "undefined") {
+			gatherableDict[key].setQuantity(savegame[key]);
+		}
+		if(typeof savegame[key+"Cutters"] !== "undefined") {
+			gatherableDict[key].setCutters(savegame[key+"Cutters"]);
+		}
 	}
-	if(typeof savegame.stone !== "undefined") {
-		gatherableDict['stone'].setQuantity(savegame.stone);
-	};
-	if(typeof savegame.stoneCutters !== "undefined") { 
-		gatherableDict['stone'].setCutters(savegame.stoneCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gatherableDict['stone'].cutters));
-	}
-	if(typeof savegame.vine !== "undefined") {
-		gatherableDict['vine'].setQuantity(savegame.vine);
-	};
-	if(typeof savegame.vineCutters !== "undefined") { 
-		gatherableDict['vine'].setCutters(savegame.vineCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gatherableDict['vine'].cutters));
-	}
-	
 	UpdateUI();
 }
 window.onload = function(){
