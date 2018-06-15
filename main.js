@@ -27,7 +27,6 @@ function resetSave(){
 	localStorage.removeItem("save");
 	wood = 0;
 	woodCutters = 0;
-	
 }
 function save(){
 	var save = {
