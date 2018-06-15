@@ -84,34 +84,23 @@ function buyGatherableCutterClick(name) {
 	}
 	UpdateUI();
 }
-function buyWoodCutterClick(){
-	var woodCutterCost = Math.floor(10 * Math.pow(1.1, woodCutters));
-	if(wood >= woodCutterCost){
-		woodCutters = woodCutters + 1;
-		wood = wood - woodCutterCost;
-	}
-	UpdateUIWood();
-}
-function UpdateUIWood(){
-	document.getElementById("woodCutters").innerHTML = woodCutters;
-	document.getElementById("woodDisp").innerHTML = wood;
-	
-	var nextCost = Math.floor(10 * Math.pow(1.1,woodCutters));
-	document.getElementById("woodCutterCost").innerHTML = nextCost;
-}
 function initialize(){
-	wood = 0;
-	woodCutters = 0;
+	gWood.initialize();
+	gStone.initialize();
+	gVine.initialize();
 }
 function resetSave(){
 	localStorage.removeItem("save");
-	wood = 0;
-	woodCutters = 0;
+	initialize();
 }
 function save(){
 	var save = {
-		wood: wood,
-		woodCutters: woodCutters
+		wood: gWood.quantity,
+		woodCutters: gWood.cutters,
+		stone: gStone.quantity,
+		stoneCutters: gStone.cutters,
+		vine: gVine.quantity,
+		vineCutters: gVine.cutters
 	}
 	localStorage.setItem("save", JSON.stringify(save));
 	console.log("I Saved");
@@ -120,14 +109,28 @@ function load(){
 	initialize();
 	var savegame = JSON.parse(localStorage.getItem("save"));
 	if(typeof savegame.wood !== "undefined") {
-		wood = savegame.wood;
+		gWood.setQuantity(savegame.wood);
 	};
 	if(typeof savegame.woodCutters !== "undefined") { 
-		woodCutters = savegame.woodCutters;
-		var nextCost = Math.floor(10 * Math.pow(1.1,woodCutters));
+		gWood.setCutters(savegame.woodCutters);
+		var nextCost = Math.floor(10 * Math.pow(1.1,gWood.cutters));
+	}
+	if(typeof savegame.stone !== "undefined") {
+		gStone.setQuantity(savegame.stone);
+	};
+	if(typeof savegame.stoneCutters !== "undefined") { 
+		gStone.setCutters(savegame.stoneCutters);
+		var nextCost = Math.floor(10 * Math.pow(1.1,gStone.cutters));
+	}
+	if(typeof savegame.vine !== "undefined") {
+		gVine.setQuantity(savegame.vine);
+	};
+	if(typeof savegame.vineCutters !== "undefined") { 
+		gVine.setCutters(savegame.vineCutters);
+		var nextCost = Math.floor(10 * Math.pow(1.1,gVine.cutters));
 	}
 	
-	UpdateUIWood();
+	UpdateUI();
 }
 window.onload = function(){
 	load();
