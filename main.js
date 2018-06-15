@@ -7,6 +7,7 @@ class Gatherable {
 	initialize(){
 		this.quantity = 0;
 		this.cutters = 0;
+		console.log(this.generateData());
 	}
 	addQuantity(number){
 		this.quantity = this.quantity + number;
@@ -26,82 +27,82 @@ class Gatherable {
 	removeCutters(number){
 		this.cutters = this.cutters - number;
 	}
+	generateData(){
+		var data = {[this.name]: this.quantity,
+		[this.name+"Cutters"]: this.cutters}
+		return data;
+	}
 	logit(){
 		console.log(this.name+" has "+this.quantity+" and "+this.cutters+" cutters");
 	}
 	updateUI() {
-		document.getElementById(this.name+"Cutters").innerHTML = this.cutters;
-		document.getElementById(this.name+"Disp").innerHTML = this.quantity;
-		
-		var nextCost = Math.floor(10 * Math.pow(1.1,this.cutters));
-		document.getElementById(this.name+"CutterCost").innerHTML = nextCost;
-		this.logit();
+		var error = "";
+		if(document.getElementById(this.name+"Cutters") != null) {
+			document.getElementById(this.name+"Cutters").innerHTML = this.cutters;
+		} else {
+			error = error + "\n Error: Expecting ElementById: "+this.name+"Cutters";
+		}
+		if(document.getElementById(this.name+"Disp") != null) {
+			document.getElementById(this.name+"Disp").innerHTML = this.quantity;
+		} else {
+			error = error + "\n Error: Expecting ElementById: "+this.name+"Disp";
+		}
+		if(document.getElementById(this.name+"CutterCost") != null) {
+			var nextCost = Math.floor(10 * Math.pow(1.1,this.cutters));
+			document.getElementById(this.name+"CutterCost").innerHTML = nextCost;
+		} else {
+			error = error + "\n Error: Expecting ElementById: "+this.name+"CutterCost";
+		}
+		if(error != ""){
+			console.error(error);
+		}
+		//this.logit();
 	}	
 }
-var wood = 0;
-var woodCutters = 0;
-
-var gWood = new Gatherable("wood",0,0);
-var gStone = new Gatherable("stone",0,0);
-var gVine = new Gatherable("vine",0,0);
+var gatherableDict = {};
+gatherableDict['wood'] = new Gatherable('wood',0,0);
+gatherableDict['stone'] = new Gatherable('stone',0,0);
+gatherableDict['vine'] = new Gatherable('vine',0,0);
+gatherableDict['coal'] = new Gatherable('coal',0,0);
 
 function gatherableClick(name, number){
-	if(name == 'wood'){
-		gWood.addQuantity(number);
-	} else if (name == 'stone'){
-		gStone.addQuantity(number);
-	} else if (name == 'vine'){
-		gVine.addQuantity(number);
+	if(name in gatherableDict){
+		gatherableDict[name].addQuantity(number);
+	} else {
+		console.error("No gatherable in list by name of "+name);
 	}
 	UpdateUI();
 }
 function UpdateUI(){
-	gWood.updateUI();
-	gStone.updateUI();
-	gVine.updateUI();
+	for (var key in gatherableDict) {
+		gatherableDict[key].updateUI();
+	}
 }
 function buyGatherableCutterClick(name) {
-	var numcutters;
-	var gCutterCost;
-	if(name == 'wood'){
-		gCutterCost = Math.floor(10 * Math.pow(1.1,gWood.cutters));
-		if(gWood.quantity >= gCutterCost){
-			gWood.addCutters(1);
-			gWood.removeQuantity(gCutterCost);
+	if(name in gatherableDict){
+		var curCutterCost = Math.floor(10* Math.pow(1.1,gatherableDict[name].cutters));
+		if(gatherableDict[name].quantity >= curCutterCost) {
+			gatherableDict[name].addCutters(1);
+			gatherableDict[name].removeQuantity(curCutterCost);
 		}
-	} else if (name == 'stone'){
-		gCutterCost = Math.floor(10 * Math.pow(1.1,gStone.cutters));
-		if(gStone.quantity >= gCutterCost){
-			gStone.addCutters(1);
-			gStone.removeQuantity(gCutterCost);
-		}
-	} else if (name == 'vine'){
-		gCutterCost = Math.floor(10 * Math.pow(1.1,gVine.cutters));
-		if(gVine.quantity >= gCutterCost){
-			gVine.addCutters(1);
-			gVine.removeQuantity(gCutterCost);
-		}
+		UpdateUI();
 	}
-	UpdateUI();
 }
 function initialize(){
-	gWood.initialize();
-	gStone.initialize();
-	gVine.initialize();
+	for (var key in gatherableDict) {
+		gatherableDict[key].initialize();
+	}
 }
 function resetSave(){
 	localStorage.removeItem("save");
 	initialize();
 }
 function save(){
-	var save = {
-		wood: gWood.quantity,
-		woodCutters: gWood.cutters,
-		stone: gStone.quantity,
-		stoneCutters: gStone.cutters,
-		vine: gVine.quantity,
-		vineCutters: gVine.cutters
+	var save = {};
+	for(key in gatherableDict){
+		save = Object.assign({},save,gatherableDict[key].generateData());
 	}
+	console.log(save);
 	localStorage.setItem("save", JSON.stringify(save));
 	console.log("I Saved");
 }
@@ -109,25 +110,25 @@ function load(){
 	initialize();
 	var savegame = JSON.parse(localStorage.getItem("save"));
 	if(typeof savegame.wood !== "undefined") {
-		gWood.setQuantity(savegame.wood);
+		gatherableDict['wood'].setQuantity(savegame.wood);
 	};
 	if(typeof savegame.woodCutters !== "undefined") { 
-		gWood.setCutters(savegame.woodCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gWood.cutters));
+		gatherableDict['wood'].setCutters(savegame.woodCutters);
+		var nextCost = Math.floor(10 * Math.pow(1.1,gatherableDict['wood'].cutters));
 	}
 	if(typeof savegame.stone !== "undefined") {
-		gStone.setQuantity(savegame.stone);
+		gatherableDict['stone'].setQuantity(savegame.stone);
 	};
 	if(typeof savegame.stoneCutters !== "undefined") { 
-		gStone.setCutters(savegame.stoneCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gStone.cutters));
+		gatherableDict['stone'].setCutters(savegame.stoneCutters);
+		var nextCost = Math.floor(10 * Math.pow(1.1,gatherableDict['stone'].cutters));
 	}
 	if(typeof savegame.vine !== "undefined") {
-		gVine.setQuantity(savegame.vine);
+		gatherableDict['vine'].setQuantity(savegame.vine);
 	};
 	if(typeof savegame.vineCutters !== "undefined") { 
-		gVine.setCutters(savegame.vineCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gVine.cutters));
+		gatherableDict['vine'].setCutters(savegame.vineCutters);
+		var nextCost = Math.floor(10 * Math.pow(1.1,gatherableDict['vine'].cutters));
 	}
 	
 	UpdateUI();
@@ -136,9 +137,9 @@ window.onload = function(){
 	load();
 }
 window.setInterval(function(){
-gatherableClick('wood',gWood.cutters);
-gatherableClick('stone',gStone.cutters);
-gatherableClick('vine',gVine.cutters);
+	for (var key in gatherableDict) {
+		gatherableClick(key,gatherableDict[key].cutters);
+	}
 }, 1000);
 window.setInterval(function(){
 	save();
