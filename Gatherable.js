@@ -1,20 +1,26 @@
-var Gatherable = {
-	Gatherable: function(name, quantity, cutters) {
-		this.name = name;
-		this.quantity = quantity;
-		this.cutters = cutters;
-		var el = document.createElement("button");
-		el.setAttribute('class','img-tree size-mid');
-		el.onClick = function(){console.log("asd");};
+var Gatherable = ({name, quantity = 0, cutters = 0, dispQuantity} = {}) => ({
+	name, 
+	quantity, 
+	cutters, 
+	dispQuantity,
+	build(){
+		el = document.createElement("div"),
+		el.setAttribute('id',name + "Gather"),
+		el.setAttribute('class', 'gatherable');
+		var btn = document.createElement('button');
+		btn.setAttribute('class','img-' + name + ' size-mid');
+		btn.onclick = this.doOnClick;
+		btn.addQuantity = this.addQuantity;
+		el.appendChild(btn);
+		
 		return el;
 	},
-	doOnClick(){
-		addQuantity(1);
+	doOnClick(e){
+		this.addQuantity(1);
 	},
-	addQuantity(number){
-		this.quantity = this.quantity + number;
-		console.log("heyeyey");
-		document.getElementById('woodDisp').innerHTML=this.quantity;
+	addQuantity: function(number){
+		quantity = quantity + 1;
+		dispQuantity.innerHTML= quantity;
 	},
 	setQuantity(number){
 		this.quantity = number;
@@ -36,10 +42,10 @@ var Gatherable = {
 	},
 	updateUI() {
 		document.getElementById(this.name+"Cutters").innerHTML = this.cutters;
-		document.getElementById(this.name+"Disp").innerHTML = this.quantity;
+		dispQuantity.innerHTML = this.quantity;
 		
 		var nextCost = Math.floor(10 * Math.pow(1.1,this.cutters));
 		document.getElementById(this.name+"CutterCost").innerHTML = nextCost;
 		//this.logit();
-	},
-}
+	}
+});

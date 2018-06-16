@@ -1,4 +1,4 @@
-/*
+var gatherTypes = ["wood","stone","vine"];/*
 function gatherableClick(name, number){
 	if(name == 'wood'){
 		gWood.addQuantity(number);
@@ -48,41 +48,34 @@ function resetSave(){
 	initialize();
 }*/
 function save(){
-document.getElementById("Gatherables").appendChild(new Gatherable.Gatherable());
+	var dispElem = 2;
+	
 
 	
 	console.log("I Saved");
-}/*
-function load(){
-	initialize();
-	var savegame = JSON.parse(localStorage.getItem("save"));
-	if(typeof savegame.wood !== "undefined") {
-		gWood.setQuantity(savegame.wood);
-	};
-	if(typeof savegame.woodCutters !== "undefined") { 
-		gWood.setCutters(savegame.woodCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gWood.cutters));
-	}
-	if(typeof savegame.stone !== "undefined") {
-		gStone.setQuantity(savegame.stone);
-	};
-	if(typeof savegame.stoneCutters !== "undefined") { 
-		gStone.setCutters(savegame.stoneCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gStone.cutters));
-	}
-	if(typeof savegame.vine !== "undefined") {
-		gVine.setQuantity(savegame.vine);
-	};
-	if(typeof savegame.vineCutters !== "undefined") { 
-		gVine.setCutters(savegame.vineCutters);
-		var nextCost = Math.floor(10 * Math.pow(1.1,gVine.cutters));
-	}
-	
-	UpdateUI();
 }
 window.onload = function(){
 	load();
 }
+function load(){
+	var saveItem = localStorage.getItem("save");
+	var savegame = JSON.parse(saveItem !== null?saveItem:"{}");
+	
+	var gathers = {};
+	gatherTypes.forEach(function(element){
+		var opts = {
+			name: element,
+			quantity: typeof savegame[element] !== "undefined"?savegame[element]:0,
+			cutters: typeof savegame[element] !== "undefined"?savegame[element]:0,
+			dispQuantity: document.getElementById(element + "Disp")
+		}
+		addGatherable(Gatherable(opts));
+	});
+}
+function addGatherable(gatherable){
+	document.getElementById("Gatherables").appendChild(gatherable.build());
+}
+/*
 window.setInterval(function(){
 gatherableClick('wood',gWood.cutters);
 gatherableClick('stone',gStone.cutters);
