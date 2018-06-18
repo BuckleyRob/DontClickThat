@@ -1,4 +1,4 @@
-var gatherTypes = ["wood","stone","vine"];/*
+var gatherTypes = ["wood","stone","vine"];
 function gatherableClick(name, number){
 	if(name == 'wood'){
 		gWood.addQuantity(number);
@@ -46,7 +46,7 @@ function initialize(){
 function resetSave(){
 	localStorage.removeItem("save");
 	initialize();
-}*/
+}
 function save(){
 	var dispElem = 2;
 	
