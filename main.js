@@ -1,65 +1,67 @@
-var gatherTypes = ["wood","stone","vine"];
+var gatherTypes = ["Wood","Stone","Vine","IDK what this is, its a thing"];
 
 var gatherableDict = {};
 
-
-function buyGatherableCutterClick(name) {
-	if(name in gatherableDict){
-		var curCutterCost = Math.floor(10* Math.pow(1.1,gatherableDict[name].cutters));
-		if(gatherableDict[name].quantity >= curCutterCost) {
-			gatherableDict[name].addCutters(1);
-			gatherableDict[name].removeQuantity(curCutterCost);
-		}
-		UpdateUI();
-	}
-}
-function initialize(){
-	for (var key in gatherableDict) {
-		gatherableDict[key].initialize();
-	}
-}
 function resetSave(){
+	gatherableDict = {};
 	localStorage.removeItem("save");
-	initialize();
+	load();
 }
 function save(){
 	var save = {};
 	for(key in gatherableDict){
-		save = Object.assign({},save,gatherableDict[key].generateData());
+		save[key] = gatherableDict[key].generateData();
 	}
-	console.log(save);
 	localStorage.setItem("save", JSON.stringify(save));
-
 	console.log("I Saved");
 }
 window.onload = function(){
 	load();
 }
 function load(){
-	var saveItem = localStorage.getItem("save");
-	var savegame = JSON.parse(saveItem !== null?saveItem:"{}");
-	
-	var gathers = {};
-	gatherTypes.forEach(function(element){
-		var opts = {
-			name: element,
-			quantity: typeof savegame[element] !== "undefined"?savegame[element]:0,
-			cutters: typeof savegame[element] !== "undefined"?savegame[element]:0,
-			dispQuantity: document.getElementById(element + "Disp")
+	var resourceDisp = document.getElementById('ResourceList');
+	while(resourceDisp.firstChild){
+		resourceDisp.removeChild(resourceDisp.firstChild);
+	}
+	var gath = document.getElementById('Gatherables');
+	while(gath.firstChild){
+		gath.removeChild(gath.firstChild);
+	}
+	var saveString = localStorage.getItem("save");
+	var saveGame = JSON.parse(saveString !== null?saveString:"{}");
+	if(Object.keys(saveGame).length > 0){
+		console.log("savegame key length greater than zero")
+		for(var saveItem in saveGame){
+			var opts = {
+				name: saveItem,
+				quantity: saveGame[saveItem].quantity,
+				cutters: saveGame[saveItem].cutters
+			}
+			addGatherable(Gatherable(opts));
 		}
-		addGatherable(Gatherable(opts));
-	});
+	}else{
+		console.log("savegame empty, starting new");
+		gatherTypes.forEach(element => {
+			console.log("loading " + element);
+			var opts = {
+				name: element,
+				quantity: 0,
+				cutters: 0
+			}
+			addGatherable(Gatherable(opts));
+		});
+	}
 }
 function addGatherable(gatherable){
 	document.getElementById("Gatherables").appendChild(gatherable.build());
+	document.getElementById("ResourceList").appendChild(gatherable.dispQuantity);
+	gatherableDict[gatherable.name] = gatherable;
 }
-/*
 window.setInterval(function(){
 	for (var key in gatherableDict) {
-		gatherableClick(key,gatherableDict[key].cutters);
+		gatherableDict[key].tick();
 	}
 }, 1000);
 window.setInterval(function(){
 	save();
-},30000);
-*/
+},5000);
