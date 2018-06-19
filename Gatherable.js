@@ -7,25 +7,31 @@ var Gatherable = ({name, quantity = 0, cutters = 0, dispQuantity} = {}) => ({
 		el = document.createElement("div"),
 		el.setAttribute('id',name + "Gather"),
 		el.setAttribute('class', 'gatherable');
+		el.gatherable = this;
 		
-		var gatherBtn = document.createElement('button');
-		gatherBtn.setAttribute('class','img-' + name + ' size-mid');
-		gatherBtn.onclick = this.doOnClick;
-		gatherBtn.addQuantity = this.addQuantity;
-		el.appendChild(gatherBtn);
+		this.gatherBtn = document.createElement('button');
+		this.gatherBtn.setAttribute('class','img-' + name + ' size-mid');
+		this.gatherBtn.onclick = function(){this.parentElement.gatherable.addQuantity(1);};
+		el.appendChild(this.gatherBtn);
 		
-		var buyCutterBtn = document.createElement('button');
-		buyCutterBtn.appendChild(document.createTextNode('Buy ' + name + ' Cutter'));
-		el.appendChild(buyCutterBtn);
+		this.buyCutterBtn = document.createElement('button');
 		
+		this.buyCutterBtn.onclick = function(){this.parentElement.gatherable.addCutters(1);};
+		el.appendChild(this.buyCutterBtn);
+
+		this.cutterLbl = document.createElement('span','Cutters ' + this.cutters);
+		el.appendChild(this.cutterLbl);
+
+		
+		this.updateUI();
 		return el;
 	},
-	doOnClick(e){
-		this.addQuantity(1);
+	getCost(){
+		return Math.floor(10 * Math.pow(1.1, this.cutters));
 	},
 	addQuantity: function(number){
-		quantity = quantity + 1;
-		dispQuantity.innerHTML= quantity;
+		this.quantity = this.quantity + number;
+		this.updateUI();
 	},
 	setQuantity(number){
 		this.quantity = number;
@@ -34,7 +40,12 @@ var Gatherable = ({name, quantity = 0, cutters = 0, dispQuantity} = {}) => ({
 		this.quantity = this.quantity - number;
 	},
 	addCutters(number){
-		this.cutters = this.cutters + number;
+		var cost = this.getCost();
+		if(this.quantity >= cost){
+			this.addQuantity(-cost);
+			this.cutters = this.cutters + number;
+		}
+		this.updateUI();
 	},
 	setCutters(number){
 		this.cutters = number;
@@ -46,11 +57,10 @@ var Gatherable = ({name, quantity = 0, cutters = 0, dispQuantity} = {}) => ({
 		console.log(this.name+" has "+this.quantity+" and "+this.cutters+" cutters");
 	},
 	updateUI() {
-		document.getElementById(this.name+"Cutters").innerHTML = this.cutters;
+		var nextCost = this.getCost();
+		this.buyCutterBtn.innerHTML = 'Buy ' + name + ' Cutter (' + nextCost + ' ' + name + ')';
+		this.buyCutterBtn.disabled = !(this.quantity >= nextCost);
+		this.cutterLbl.innerHTML = 'Cutters ' + this.cutters;
 		dispQuantity.innerHTML = this.quantity;
-		
-		var nextCost = Math.floor(10 * Math.pow(1.1,this.cutters));
-		document.getElementById(this.name+"CutterCost").innerHTML = nextCost;
-		//this.logit();
 	}
 });
