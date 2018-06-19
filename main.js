@@ -1,57 +1,35 @@
 var gatherTypes = ["wood","stone","vine"];
-function gatherableClick(name, number){
-	if(name == 'wood'){
-		gWood.addQuantity(number);
-	} else if (name == 'stone'){
-		gStone.addQuantity(number);
-	} else if (name == 'vine'){
-		gVine.addQuantity(number);
-	}
-	UpdateUI();
-}
-function UpdateUI(){
-	gWood.updateUI();
-	gStone.updateUI();
-	gVine.updateUI();
-}
+
+var gatherableDict = {};
+
+
 function buyGatherableCutterClick(name) {
-	var numcutters;
-	var gCutterCost;
-	if(name == 'wood'){
-		gCutterCost = Math.floor(10 * Math.pow(1.1,gWood.cutters));
-		if(gWood.quantity >= gCutterCost){
-			gWood.addCutters(1);
-			gWood.removeQuantity(gCutterCost);
+	if(name in gatherableDict){
+		var curCutterCost = Math.floor(10* Math.pow(1.1,gatherableDict[name].cutters));
+		if(gatherableDict[name].quantity >= curCutterCost) {
+			gatherableDict[name].addCutters(1);
+			gatherableDict[name].removeQuantity(curCutterCost);
 		}
-	} else if (name == 'stone'){
-		gCutterCost = Math.floor(10 * Math.pow(1.1,gStone.cutters));
-		if(gStone.quantity >= gCutterCost){
-			gStone.addCutters(1);
-			gStone.removeQuantity(gCutterCost);
-		}
-	} else if (name == 'vine'){
-		gCutterCost = Math.floor(10 * Math.pow(1.1,gVine.cutters));
-		if(gVine.quantity >= gCutterCost){
-			gVine.addCutters(1);
-			gVine.removeQuantity(gCutterCost);
-		}
+		UpdateUI();
 	}
-	UpdateUI();
 }
 function initialize(){
-	gWood.initialize();
-	gStone.initialize();
-	gVine.initialize();
+	for (var key in gatherableDict) {
+		gatherableDict[key].initialize();
+	}
 }
 function resetSave(){
 	localStorage.removeItem("save");
 	initialize();
 }
 function save(){
-	var dispElem = 2;
-	
+	var save = {};
+	for(key in gatherableDict){
+		save = Object.assign({},save,gatherableDict[key].generateData());
+	}
+	console.log(save);
+	localStorage.setItem("save", JSON.stringify(save));
 
-	
 	console.log("I Saved");
 }
 window.onload = function(){
@@ -77,9 +55,9 @@ function addGatherable(gatherable){
 }
 /*
 window.setInterval(function(){
-gatherableClick('wood',gWood.cutters);
-gatherableClick('stone',gStone.cutters);
-gatherableClick('vine',gVine.cutters);
+	for (var key in gatherableDict) {
+		gatherableClick(key,gatherableDict[key].cutters);
+	}
 }, 1000);
 window.setInterval(function(){
 	save();

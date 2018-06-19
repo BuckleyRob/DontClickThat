@@ -7,11 +7,16 @@ var Gatherable = ({name, quantity = 0, cutters = 0, dispQuantity} = {}) => ({
 		el = document.createElement("div"),
 		el.setAttribute('id',name + "Gather"),
 		el.setAttribute('class', 'gatherable');
-		var btn = document.createElement('button');
-		btn.setAttribute('class','img-' + name + ' size-mid');
-		btn.onclick = this.doOnClick;
-		btn.addQuantity = this.addQuantity;
-		el.appendChild(btn);
+		
+		var gatherBtn = document.createElement('button');
+		gatherBtn.setAttribute('class','img-' + name + ' size-mid');
+		gatherBtn.onclick = this.doOnClick;
+		gatherBtn.addQuantity = this.addQuantity;
+		el.appendChild(gatherBtn);
+		
+		var buyCutterBtn = document.createElement('button');
+		buyCutterBtn.appendChild(document.createTextNode('Buy ' + name + ' Cutter'));
+		el.appendChild(buyCutterBtn);
 		
 		return el;
 	},
