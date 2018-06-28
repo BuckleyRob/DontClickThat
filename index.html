@@ -2,6 +2,7 @@
 	<HEAD>
 		<link rel="stylesheet" type="text/css" href="buttonImages.css"/>
 		<link rel="stylesheet" type="text/css" href="userInterface.css"/>
+		<link rel="stylesheet" type="text/css" href="tabs.css"/>
 	</HEAD>
 	<HEADER>
 		<h1 class="floatL">Click2Craft</h1>
@@ -12,22 +13,33 @@
 				<li>Vine:<span id="vineDisp">0</span></li>
 			</ul>
 		</div>
-		<div id="MenuBar">
-			<ul class="no-bullet">
-				<li class="floatR"><button onClick="save()">Save the Game</button></li>
-				<li class="floatR"><button onClick="load()">Load the Game</button></li>
-				<li class="floatR"><button onClick="resetSave()">Reset the Game</button></li>
-			</ul>
-		</div>
 		<div class="clear"/>
+		<div class="tabContainer">
+			<button id="defaultOpen" class="tabButton" onClick="openTab(event, 'Gatherables')">Resources</button>
+			<button class="tabButton" onClick="openTab(event, 'Buildings')">Buildings</button>
+			<button class="tabButton" onClick="openTab(event, 'TechTree')">Tech</button>
+			<button class="tabButton" onClick="openTab(event, 'settings')">Settings</button>
+		</div>
 	</HEADER>
 	<BODY>
-		<div id="Gatherables">
+		<div id="Gatherables" class="tabContent">
 		</div>
-		<div id="TechTree">
+		<div id="Buildings" class="tabContent">
+		<p>I uh... hold buildings I guess.</p>
+		</div>
+		<div id="TechTree" class="tabContent">
 			<p>I'm a Tech Tree Page. Dont Click me I do nuthin</p>
+		</div>
+		<div id="settings" class="tabContent">
+			<button onClick="save()">Save the Game</button>
+			<button onClick="load()">Load the Game</button>
+			<button onClick="resetSave()">Reset the Game</button>
 		</div>
 		<script type="text/javascript" src="Gatherable.js"></script>
 		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="tabs.js"></script>
+		<script>
+			document.getElementById("defaultOpen").click();
+		</script>
 	</BODY>
 </HTML>
