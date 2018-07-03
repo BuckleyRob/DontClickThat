@@ -1,9 +1,11 @@
 var gatherTypes = ["Wood","Stone","Vine","IDK what this is, its a thing"];
 
 var gatherableDict = {};
+var technologyDict = {};
 
 function resetSave(){
 	gatherableDict = {};
+	technologyDict = {};
 	localStorage.removeItem("save");
 	load();
 }
@@ -19,6 +21,12 @@ window.onload = function(){
 	load();
 }
 function load(){
+	var params = {
+		name: "TestTechnology",
+		requiredTech: {}, 
+		unlocked: false
+	}
+	addTechnology(Technology(params));
 	var resourceDisp = document.getElementById('ResourceList');
 	while(resourceDisp.firstChild){
 		resourceDisp.removeChild(resourceDisp.firstChild);
@@ -56,6 +64,10 @@ function addGatherable(gatherable){
 	document.getElementById("Gatherables").appendChild(gatherable.build());
 	document.getElementById("ResourceList").appendChild(gatherable.dispQuantity);
 	gatherableDict[gatherable.name] = gatherable;
+}
+function addTechnology(technology){
+	document.getElementById("TechTree").appendChild(technology.build());
+	technologyDict[technology.name] = technology;
 }
 window.setInterval(function(){
 	for (var key in gatherableDict) {
