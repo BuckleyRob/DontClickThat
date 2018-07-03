@@ -23,7 +23,7 @@ var Building =({name, sources,output, count = 0} = {}) => ({
 			for(var gath in this.sources){
 				this.sources[gath].removeQuantity(5);
 			}
-			this.count++;
+			this.quantity++;
 		}
 		this.updateUI();
 	},
