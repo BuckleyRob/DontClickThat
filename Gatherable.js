@@ -48,6 +48,7 @@ var Gatherable = ({name, quantity = 0, cutters = 0} = {}) => ({
 	},
 	removeQuantity(number){
 		this.quantity = this.quantity - number;
+		this.updateUI();
 	},
 	addCutters(number){
 		var cost = this.getCost();

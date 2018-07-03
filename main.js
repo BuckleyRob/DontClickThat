@@ -1,9 +1,11 @@
-var gatherTypes = ["Wood","Stone","Vine","IDK what this is, its a thing"];
+var gatherTypes = ["Wood","Stone","Vine"];
 
 var gatherableDict = {};
+var buildingDict = {};
 
 function resetSave(){
 	gatherableDict = {};
+	buildingDict = {};
 	localStorage.removeItem("save");
 	load();
 }
@@ -51,6 +53,14 @@ function load(){
 			addGatherable(Gatherable(opts));
 		});
 	}
+	opts = {name:'nice',sources:[gatherableDict['Wood'],gatherableDict['Stone']],output:'Wood Stone Thing',count:0};
+	var niceB = Building(opts);
+	addBuilding(niceB);
+}
+function addBuilding(building){
+	document.getElementById("Buildings").appendChild(building.build());
+	document.getElementById("ResourceList").appendChild(building.dispQuantity);
+	buildingDict[building.name] = building;
 }
 function addGatherable(gatherable){
 	document.getElementById("Gatherables").appendChild(gatherable.build());
@@ -60,6 +70,9 @@ function addGatherable(gatherable){
 window.setInterval(function(){
 	for (var key in gatherableDict) {
 		gatherableDict[key].tick();
+	}
+	for (var key in buildingDict) {
+		buildingDict[key].tick();
 	}
 }, 1000);
 window.setInterval(function(){
