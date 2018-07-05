@@ -15,8 +15,8 @@
 		</div>
 		<div class="clear"/>
 		<div class="tabContainer">
-			<button id="defaultOpen" class="tabButton" onClick="openTab(event, 'Gatherables')">Resources</button>
-			<button class="tabButton" onClick="openTab(event, 'Buildings')">Buildings</button>
+			<button class="tabButton" onClick="openTab(event, 'Gatherables')">Resources</button>
+			<button id="defaultOpen" class="tabButton" onClick="openTab(event, 'Buildings')">Buildings</button>
 			<button class="tabButton" onClick="openTab(event, 'TechTree')">Tech</button>
 			<button class="tabButton" onClick="openTab(event, 'settings')">Settings</button>
 		</div>
@@ -36,9 +36,11 @@
 			<button onClick="resetSave()">Reset the Game</button>
 		</div>
 		<script type="text/javascript" src="Gatherable.js"></script>
+		<script type="text/javascript" src="Building.js"></script>
 		<script type="text/javascript" src="Technology.js"></script>
 		<script type="text/javascript" src="main.js"></script>
 		<script type="text/javascript" src="tabs.js"></script>
+		
 		<script>
 			document.getElementById("defaultOpen").click();
 		</script>
