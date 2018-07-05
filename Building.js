@@ -1,7 +1,7 @@
-var Building =({name, sources,output, quantity = 0,buildingCount = 0} = {}) => ({
+var Building =({name, sources,outputResource, quantity = 0,buildingCount = 0} = {}) => ({
 	name,
 	sources,
-	output,
+	outputResource,
 	buildingCount,
 	quantity,
 	build(){
@@ -18,8 +18,10 @@ var Building =({name, sources,output, quantity = 0,buildingCount = 0} = {}) => (
 		this.buyButton.setAttribute('id',safeName + 'BuyButton');
 		this.buyButton.onclick = function(){this.parentElement.building.buyBuilding();};
 		el.appendChild(this.buyButton);
+		
 		this.buildingCountDisp = document.createElement("div");
 		el.appendChild(this.buildingCountDisp);
+		
 		this.buildingCosts = document.createElement("div");
 		costList = document.createElement("ul");
 		this.buildingCosts.appendChild(costList);
@@ -30,11 +32,7 @@ var Building =({name, sources,output, quantity = 0,buildingCount = 0} = {}) => (
 		}
 		el.appendChild(this.buildingCosts);
 		
-		
-		
-		this.dispQuantity = document.createElement("li");
 		this.updateUI();
-		console.log(sources);
 		return el;
 	},
 	buyBuilding(){
@@ -60,12 +58,10 @@ var Building =({name, sources,output, quantity = 0,buildingCount = 0} = {}) => (
 		for(var gath in this.sources){
 			this.sources[gath].source.removeQuantity(canDo * this.sources[gath].reqAmt);
 		}
-		this.quantity += canDo;
-		
+		this.outputResource.addQuantity(canDo);
 		this.updateUI();
 	},
 	updateUI(){
-		this.dispQuantity.innerHTML = output + ": " + this.quantity;
 		this.buildingCountDisp.innerHTML = "I have " + this.buildingCount;
 	}
 });
