@@ -35,6 +35,20 @@ function load(){
 	}
 	var tech1 = Technology(params1);
 	addTechnology(tech1);
+	var params2 = {
+		name: "TestTechnology2",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[tech0]}, 
+		bought: false
+	}
+	var tech2 = Technology(params2);
+	addTechnology(tech2);
+	var params3 = {
+		name: "TestTechnology3",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[tech1,tech2]}, 
+		bought: false
+	}
+	var tech3 = Technology(params3);
+	addTechnology(tech3);
 	var resourceDisp = document.getElementById('ResourceList');
 	while(resourceDisp.firstChild){
 		resourceDisp.removeChild(resourceDisp.firstChild);
