@@ -21,12 +21,20 @@ window.onload = function(){
 	load();
 }
 function load(){
-	var params = {
-		name: "TestTechnology",
-		requiredTech: {}, 
-		unlocked: false
+	var params0 = {
+		name: "TestTechnology0",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[]}, 
+		bought: false
 	}
-	addTechnology(Technology(params));
+	var tech0 = Technology(params0);
+	addTechnology(tech0);
+	var params1 = {
+		name: "TestTechnology1",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[tech0]}, 
+		bought: false
+	}
+	var tech1 = Technology(params1);
+	addTechnology(tech1);
 	var resourceDisp = document.getElementById('ResourceList');
 	while(resourceDisp.firstChild){
 		resourceDisp.removeChild(resourceDisp.firstChild);

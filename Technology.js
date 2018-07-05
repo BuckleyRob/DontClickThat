@@ -1,10 +1,10 @@
-var Technology = ({name, requiredTech = {}, unlocked = false} = {}) => ({
+var Technology = ({name, requirements = {"Gatherables":[],"Buildings":[],"Technologies":[]}, bought = false} = {}) => ({
 	name, 
-	requiredTech, 
-	unlocked,
+	requirements, 
+	bought,
 	onAwake() {
-		//What happens when this tech becomes unlocked
-		//Send event of the Technology being unlocked;
+		//What happens when this tech becomes bought
+		//Send event of the Technology being bought;
 	},
 	build() {
 		this.safeName = safeName = name.replace(/\s+/g, '-').toLowerCase();
@@ -19,25 +19,10 @@ var Technology = ({name, requiredTech = {}, unlocked = false} = {}) => ({
 		this.technologyBtn.className += ' size-mid';
 		this.technologyBtn.className += ' tech-locked';
 		this.technologyBtn.setAttribute('id',safeName + 'TechBtn');
-		this.technologyBtn.disabled = true;
 		this.technologyBtn.onclick = function(){this.parentElement.technology.buyTech();};
 		el.appendChild(this.technologyBtn);
 		
-		this.missingTech = 1;
-		for(rTech in requiredTech){
-			if(!rTech.unlocked) {
-				this.missingTech += 1;
-			}
-		}
-		if(this.missingTech == 0) {
-			this.unlocked = true;
-		} else {
-			this.unlocked = false;
-		}
-		if(!this.unlocked){
-			this.technologyBtn.className = this.technologyBtn.className.replace("tech-unlocked", "tech-locked");
-			this.technologyBtn.disabled = false;
-		}
+		this.loadTech();
 		
 		this.updateUI();
 		return el;
@@ -46,30 +31,39 @@ var Technology = ({name, requiredTech = {}, unlocked = false} = {}) => ({
 		return Math.floor(10 * Math.pow(1.1, this.cutters));
 	},
 	buyTech: function(){
-		alert("ding");
+		console.log("buying "+this.name);
 		this.missingTech = 0;
-		for(rTech in requiredTech){
-			if(!rTech.unlocked) {
+		for(requirement in this.requirements["Technologies"]){
+			if(!this.requirements["Technologies"][requirement].bought) {
+				console.log("Technology required: "+this.requirements["Technologies"][requirement].name);
+				this.missingTech += 1;
+			}
+		}
+		for(requirement in this.requirements["Gatherables"]){
+			console.log("Gatherable required");
+			if(this.requirements["Gatherables"][requirement].quantity < 25) {
 				this.missingTech += 1;
 			}
 		}
 		if(this.missingTech == 0) {
-			this.unlocked = true;
+			this.bought = true;
 		} else {
-			this.unlocked = false;
+			this.bought = false;
 		}
-		if(this.unlocked){
-			this.technologyBtn.className = this.technologyBtn.className.replace("tech-locked", "tech-unlocked");
+		if(this.bought){
+			console.log("BOUGHT: "+this.name);
+			this.technologyBtn.className = this.technologyBtn.className.replace("tech-locked", "tech-bought");
 			this.technologyBtn.disabled = true;
 		}
 		
 		this.updateUI();
 	},
-	setQuantity(number){
-		this.quantity = number;
-	},
-	removeQuantity(number){
-		this.quantity = this.quantity - number;
+	loadTech: function() {
+		if(this.bought){
+			console.log("LOADED AS BOUGHT: "+this.name);
+			this.technologyBtn.className = this.technologyBtn.className.replace("tech-locked", "tech-bought");
+			this.technologyBtn.disabled = true;
+		}
 	},
 	addCutters(number){
 		var cost = this.getCost();
