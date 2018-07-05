@@ -53,9 +53,17 @@ function load(){
 			addGatherable(Gatherable(opts));
 		});
 	}
-	opts = {name:'nice',sources:[gatherableDict['Wood'],gatherableDict['Stone']],output:'Wood Stone Thing',count:0};
+	opts = {
+		name:'Wood',
+		sources:[
+			{source:gatherableDict['Wood'],reqAmt:2},
+			{source:gatherableDict['Stone'],reqAmt:3}
+		],
+		output:'Wood Stone Thing',
+		count:0};
 	var niceB = Building(opts);
 	addBuilding(niceB);
+	
 }
 function addBuilding(building){
 	document.getElementById("Buildings").appendChild(building.build());

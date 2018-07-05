@@ -29,10 +29,6 @@ var Gatherable = ({name, quantity = 0, cutters = 0} = {}) => ({
 
 		this.dispQuantity = document.createElement("li");
 
-		// this.testBtn = document.createElement('button');
-		// this.testBtn.innerHTML = "Test Tick";
-		// this.testBtn.onclick = function(){this.parentElement.gatherable.tick();};
-		// el.appendChild(this.testBtn);
 		this.updateUI();
 		return el;
 	},
