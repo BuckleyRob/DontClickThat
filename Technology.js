@@ -22,6 +22,12 @@ var Technology = ({name, requirements = {"Gatherables":[],"Buildings":[],"Techno
 		this.technologyBtn.onclick = function(){this.parentElement.technology.buyTech();};
 		el.appendChild(this.technologyBtn);
 		
+		this.technologyTitle = document.createElement('p');
+		this.technologyTitle.innerHTML = this.name;
+		this.technologyTitle.className = 'title';
+		this.technologyTitle.setAttribute('id',safeName + 'TechTitle');
+		el.appendChild(this.technologyTitle);
+		
 		this.loadTech();
 		
 		this.updateUI();

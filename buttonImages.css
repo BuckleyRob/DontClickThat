@@ -11,3 +11,11 @@ button.img-idk { background-image:url("Images/IDK.png");}
 button.img-wood { background-image:url("Images/Wood-Sprite.png");}
 button.img-stone { background-image:url("Images/Stone-Sprite.png");}
 button.img-vine { background-image:url("Images/Vine-Sprite.png");}
+
+button:disabled,button[disabled] {
+  opacity: 0.75;
+}
+div.technology p.title {
+	margin-top:0px;
+	padding-left:10px;
+}
