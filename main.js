@@ -1,9 +1,11 @@
 var gatherTypes = ["Wood","Stone","Vine","IDK what this is, its a thing"];
 
 var gatherableDict = {};
+var technologyDict = {};
 
 function resetSave(){
 	gatherableDict = {};
+	technologyDict = {};
 	localStorage.removeItem("save");
 	load();
 }
@@ -19,6 +21,34 @@ window.onload = function(){
 	load();
 }
 function load(){
+	var params0 = {
+		name: "TestTechnology0",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[]}, 
+		bought: false
+	}
+	var tech0 = Technology(params0);
+	addTechnology(tech0);
+	var params1 = {
+		name: "TestTechnology1",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[tech0]}, 
+		bought: false
+	}
+	var tech1 = Technology(params1);
+	addTechnology(tech1);
+	var params2 = {
+		name: "TestTechnology2",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[tech0]}, 
+		bought: false
+	}
+	var tech2 = Technology(params2);
+	addTechnology(tech2);
+	var params3 = {
+		name: "TestTechnology3",
+		requirements: {"Gatherables":[],"Buildings":[],"Technologies":[tech1,tech2]}, 
+		bought: false
+	}
+	var tech3 = Technology(params3);
+	addTechnology(tech3);
 	var resourceDisp = document.getElementById('ResourceList');
 	while(resourceDisp.firstChild){
 		resourceDisp.removeChild(resourceDisp.firstChild);
@@ -56,6 +86,10 @@ function addGatherable(gatherable){
 	document.getElementById("Gatherables").appendChild(gatherable.build());
 	document.getElementById("ResourceList").appendChild(gatherable.dispQuantity);
 	gatherableDict[gatherable.name] = gatherable;
+}
+function addTechnology(technology){
+	document.getElementById("TechTree").appendChild(technology.build());
+	technologyDict[technology.name] = technology;
 }
 window.setInterval(function(){
 	for (var key in gatherableDict) {
