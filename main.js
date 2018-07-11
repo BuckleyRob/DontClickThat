@@ -1,5 +1,19 @@
 var gatherTypes = ["Wood","Stone","Vine"];
-
+var resourceTypes = ["Wood","Stone","Vine","Shovel"];
+var buildingDescriptors = {
+	"WoodCutter":{
+		"consumes":[],
+		"produces":[{name:"Wood",amt:1}]
+	},
+	"ShovelMaker":{
+		consumes:[{
+			source:"Wood",reqAmt:2},
+			{source:"Stone",reqAmt:1}
+			],
+		produces:[{name:"Shovels",amt:1}]
+	}
+};
+var resourceDict = {};
 var gatherableDict = {};
 var buildingDict = {};
 var technologyDict = {};
@@ -55,6 +69,7 @@ function load(){
 	while(resourceDisp.firstChild){
 		resourceDisp.removeChild(resourceDisp.firstChild);
 	}
+	buildResources();
 	var gath = document.getElementById('Gatherables');
 	while(gath.firstChild){
 		gath.removeChild(gath.firstChild);
@@ -94,6 +109,12 @@ function load(){
 	var niceB = Building(opts);
 	addBuilding(niceB);
 	
+}
+function buildResources(){
+	for(var res in resourceTypes){
+		var curRes = document.
+		document.getElementById('ResourceList');
+	}
 }
 function addBuilding(building){
 	document.getElementById("Buildings").appendChild(building.build());
