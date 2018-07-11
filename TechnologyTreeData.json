@@ -1,0 +1,31 @@
+[{
+	"Technology Tree" : {
+		"Technology" : {
+			"Name" : "Masonry",
+			"Requirements" : {
+				"Technology" : [],
+				"Building" : [],
+				"Resource" : {"Wood" : "25","Stone":"30"}
+			},
+			"SoureImg" : "./Images/masonry.jpg"
+		},
+		"Technology": {
+			"Name" : "Agriculture",
+			"Requirements" : {
+				"Technology" : [],
+				"Building" : [],
+				"Resource" : {"Wood" : "25","Stone":"15","Vine":"40"}
+			},
+			"SoureImg" : "./Images/agriculture.jpg"
+		},
+		"Technology": {
+			"Name" : "Construction",
+			"Requirements" : {
+				"Technology" : ["Masonry"],
+				"Building" : [],
+				"Resource" : {"Wood" : "1500","Stone":"2050"}
+			},
+			"SoureImg" : "./Images/construction.jpg"
+		}
+	}
+}];
