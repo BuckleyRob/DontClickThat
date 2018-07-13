@@ -98,27 +98,21 @@ function load(){
 			addGatherable(Gatherable(opts));
 		});
 	}
-	opts = {
-		name:'Wood',
-		sources:[
-			{source:gatherableDict['Wood'],reqAmt:2},
-			{source:gatherableDict['Stone'],reqAmt:3}
-		],
-		output:'Wood Stone Thing',
-		count:0};
-	var niceB = Building(opts);
-	addBuilding(niceB);
-	
 }
 function buildResources(){
 	for(var res in resourceTypes){
-		var curRes = document.
-		document.getElementById('ResourceList');
+		var opts = {
+			name:resourceTypes[res],
+			display:document.createElement('li'),
+			};
+		var curRes = Resource(opts);
+		resourceDict[res] = curRes;
+		document.getElementById('ResourceList').appendChild(curRes.display);
+		curRes.updateUI();
 	}
 }
 function addBuilding(building){
 	document.getElementById("Buildings").appendChild(building.build());
-	document.getElementById("ResourceList").appendChild(building.dispQuantity);
 	buildingDict[building.name] = building;
 }
 function addGatherable(gatherable){
